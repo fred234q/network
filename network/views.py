@@ -78,6 +78,9 @@ def new_post(request):
     # Get data
     data = json.loads(request.body)
     body = data.get("body", "")
+    
+    if body == "":
+        return JsonResponse({"error: Post must not be empty."}, status=400)
 
     # Create post
     post = Post(
