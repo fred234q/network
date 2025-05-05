@@ -1,5 +1,15 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    TODO
+    <div class="nm">
+        <h1>All Posts</h1>
+        <div class="new-post nm">
+            <h4>New Post</h4>
+            <form id="new-post-form">
+                <textarea id="new-post-body" class="nm-inset"></textarea>
+                <br>
+                <input type="submit" class="submit-button" value="Post">
+            </form>
+        </div>
+    </div>
 {% endblock %}
