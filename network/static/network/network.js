@@ -22,8 +22,27 @@ function new_post(event) {
         // Print result
         console.log(result);
 
+        // Remove existing alert
+        if (document.querySelector('.alert')) {
+            document.querySelector('.alert').remove();
+        }
+
+        // Create alert
+        const alert = document.createElement('div');
+        alert.classList.add('alert', 'nm');
+        document.querySelector('#new-post').append(alert);
+
+        // Change color and content based on the type of alert
+        if (result.error) {
+            alert.classList.add('alert-danger');
+            alert.innerText = `Error: ${result.error}`;
+        } else {
+            alert.classList.add('alert-success');
+            alert.innerText = result.message;
+        }
+
         // Clear textarea
-        document.querySelector('#new-post-body').value = ''
+        document.querySelector('#new-post-body').value = '';
 
     })
     .catch(error => {

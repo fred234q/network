@@ -80,7 +80,7 @@ def new_post(request):
     body = data.get("body", "")
     
     if body == "":
-        return JsonResponse({"error: Post must not be empty."}, status=400)
+        return JsonResponse({"error": "Post must not be empty."}, status=400)
 
     # Create post
     post = Post(
