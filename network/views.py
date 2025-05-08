@@ -3,8 +3,12 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
+import json
 
-from .models import User
+from .models import User, Post, Like
 
 
 def index(request):
@@ -61,3 +65,28 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+
+@csrf_exempt
+@login_required
+def new_post(request):
+    
+    # Creating a new post must be done via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+    
+    # Get data
+    data = json.loads(request.body)
+    body = data.get("body", "")
+    
+    if body == "":
+        return JsonResponse({"error": "Post must not be empty."}, status=400)
+
+    # Create post
+    post = Post(
+        user=request.user,
+        body=body
+    )
+    post.save()
+
+    return JsonResponse({"message": "Post created successfully."}, status=201)
