@@ -92,6 +92,10 @@ def new_post(request):
     return JsonResponse({"message": "Post created successfully."}, status=201)
 
 
+def user(request, username):
+    pass
+
+
 def posts(request, feed):
 
     # Filter posts based on feed
