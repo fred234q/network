@@ -90,3 +90,16 @@ def new_post(request):
     post.save()
 
     return JsonResponse({"message": "Post created successfully."}, status=201)
+
+
+def posts(request, feed):
+
+    # Filter posts based on feed
+    if feed == "all":
+        posts = Post.objects.all()
+    else:
+        return JsonResponse({"error": "Invalid feed."}, status=400)
+
+    # Return posts in reverse chronological order
+    posts.order_by("-timestamp").all()
+    return JsonResponse([post.serialize() for post in posts], safe=False)
