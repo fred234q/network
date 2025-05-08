@@ -101,5 +101,5 @@ def posts(request, feed):
         return JsonResponse({"error": "Invalid feed."}, status=400)
 
     # Return posts in reverse chronological order
-    posts.order_by("-timestamp").all()
+    posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-    <div id="all-posts-container" class="nm">
+    <div class="nm">
         <h1>All Posts</h1>
         {% if user.is_authenticated %}
             <div id="new-post" class="nm">
@@ -14,9 +14,12 @@
                 </form>
             </div>
         {% endif %}
+        <div id="posts-container">
+        </div>
     </div>
 {% endblock %}
 
 {% block script %}
     <script src="{% static 'network/network.js' %}"></script>
+    <script src="https://kit.fontawesome.com/44caf01f57.js" crossorigin="anonymous"></script>
 {% endblock %}
