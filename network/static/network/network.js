@@ -20,7 +20,7 @@ function new_post(event) {
     // Retrieve contents of post
     const body = document.querySelector('#new-post-body').value;
 
-    // Post post to API
+    // Post new post to API
     fetch('/new-post', {
         method: 'POST',
         body: JSON.stringify({
