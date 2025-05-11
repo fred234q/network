@@ -55,6 +55,8 @@ def register(request):
 
         # Attempt to create new user
         try:
+            if username == "all":
+                raise IntegrityError
             user = User.objects.create_user(username, email, password)
             user.save()
         except IntegrityError:
