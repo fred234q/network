@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('#new-post-form').addEventListener('submit', event => new_post(event));
 
-    load_posts('all');
+    feed = document.querySelector('#posts-container').dataset.feed;
+    if (!feed) {
+        feed = 'all';
+    }
+    console.log(`Feed: ${feed}`);
+    load_posts(feed);
 });
 
 function new_post(event) {
@@ -66,6 +71,9 @@ function load_posts(feed) {
   .then(posts => {
       // Print emails
       console.log(posts);
+      if (posts.error) {
+        return;
+      }
       posts.forEach(function(post) {
         // Create post card
         const postCard = document.createElement('div');

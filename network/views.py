@@ -93,16 +93,26 @@ def new_post(request):
 
 
 def user(request, username):
-    pass
+    return render(request, "network/index.html", {"feed": username})
 
 
 def posts(request, feed):
+    print(f"Feed: {feed}")
 
     # Filter posts based on feed
     if feed == "all":
         posts = Post.objects.all()
     else:
-        return JsonResponse({"error": "Invalid feed."}, status=400)
+        try:
+            user = User.objects.get(username=feed)
+        except:
+            return JsonResponse({"error": f"User with username {feed} does not exist"}, status=400)
+        
+        posts = Post.objects.filter(
+            user=user
+        )
+        if not posts:
+            return JsonResponse({"error": "Invalid feed."}, status=400)
 
     # Return posts in reverse chronological order
     posts = posts.order_by("-timestamp").all()
