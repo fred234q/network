@@ -70,3 +70,8 @@ textarea {
 h1 {
     margin: auto 0.5em;
 }
+
+#posts-container a {
+    color: unset;
+    text-decoration: unset;
+}

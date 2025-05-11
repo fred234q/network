@@ -86,7 +86,11 @@ function load_posts(feed) {
 
 
         const user = document.createElement('h4');
-        user.innerText = post['user'];
+        const userLink = document.createElement('a');
+        userLink.href = `/user/${post['user']}`;
+        userLink.innerText = post['user'];
+        user.append(userLink);
+        // user.innerText = post['user'];
 
         const body = document.createElement('p');
         body.innerText = post['body'];
