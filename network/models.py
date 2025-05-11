@@ -3,7 +3,16 @@ from django.db import models
 
 
 class User(AbstractUser):
-    following = models.ManyToManyField('User', related_name="followers")
+    followers = models.ManyToManyField('User', related_name="following")
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "posts": self.posts.count(),
+            "followers": self.followers.count(),
+            "following": self.following.count()
+        }
 
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")

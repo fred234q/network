@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
         feed = 'all';
         // Posting only possible if showing all posts
         document.querySelector('#new-post-form').addEventListener('submit', event => new_post(event));
+    } else {
+        load_user(feed)
     }
     console.log(`Feed: ${feed}`);
     load_posts(feed);
@@ -65,10 +67,10 @@ function new_post(event) {
 
 function load_posts(feed) {
 
-    // Clear posts
-    document.querySelector('#posts-container').innerHTML = '';
+  // Clear posts
+  document.querySelector('#posts-container').innerHTML = '';
 
-    // Load posts contained in selected feed
+  // Load posts contained in selected feed
   fetch(`/posts/${feed}`)
   .then(response => response.json())
   .then(posts => {
@@ -108,3 +110,31 @@ function load_posts(feed) {
     console.log('Error:', error);
   });
 }
+
+function load_user(feed) {
+
+  // Load user
+  fetch(`/user/${feed}/info`)
+  .then(response => response.json())
+  .then(user => {
+      // Print user
+      console.log(user);
+      if (user.error) {
+        return;
+      }
+
+      // Set posts, followers and following for user
+      const posts = document.querySelector('#user-posts').lastElementChild;
+      const followers = document.querySelector('#user-followers').lastElementChild;
+      const following = document.querySelector('#user-following').lastElementChild;
+
+      posts.innerText = user.posts;
+      followers.innerText = user.followers;
+      following.innerText = user.following;
+
+  })
+  .catch(error => {
+    console.log('Error:', error);
+  });
+}
+

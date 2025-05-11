@@ -119,3 +119,14 @@ def posts(request, feed):
     # Return posts in reverse chronological order
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
+
+def user_info(request, username):
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return JsonResponse({"error": f"User with username {username} does not exist"}, status=400)
+    
+    if not user:
+            return JsonResponse({"error": "Invalid user."}, status=400)
+    
+    return JsonResponse(user.serialize())
