@@ -4,7 +4,7 @@
 {% block body %}
     <div class="nm">
         <h1>All Posts</h1>
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and not feed %}
             <div id="new-post" class="nm">
                 <h4>New Post</h4>
                 <form id="new-post-form">

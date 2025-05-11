@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
-    document.querySelector('#new-post-form').addEventListener('submit', event => new_post(event));
 
     feed = document.querySelector('#posts-container').dataset.feed;
+
+    // If no feed, make it all
     if (!feed) {
         feed = 'all';
+        // Posting only possible if showing all posts
+        document.querySelector('#new-post-form').addEventListener('submit', event => new_post(event));
     }
     console.log(`Feed: ${feed}`);
     load_posts(feed);
