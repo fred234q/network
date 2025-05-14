@@ -130,3 +130,6 @@ def user_info(request, username):
             return JsonResponse({"error": "Invalid user."}, status=400)
     
     return JsonResponse(user.serialize())
+
+def follow(request, username):
+    pass
