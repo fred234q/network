@@ -29,6 +29,9 @@
                     <h5>0</h5>
                 </div>
             </div>
+            {% if request.user.username != feed %}
+                <button id="follow-btn" class="button">Follow</button>
+            {% endif %}
         {% endif %}
         <div id="posts-container" data-feed="{{ feed }}">
         </div>
