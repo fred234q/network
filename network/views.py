@@ -127,9 +127,25 @@ def user_info(request, username):
         return JsonResponse({"error": f"User with username {username} does not exist"}, status=400)
     
     if not user:
-            return JsonResponse({"error": "Invalid user."}, status=400)
+        return JsonResponse({"error": "Invalid user."}, status=400)
     
     return JsonResponse(user.serialize())
 
+
+@login_required
 def follow(request, username):
-    pass
+    if request.method == "POST":
+        try:
+            followed_user = User.objects.get(username=username)
+        except:
+            return JsonResponse({"error": f"User with username {username} does not exist"}, status=400)
+        
+        if not followed_user:
+            return JsonResponse({"error": "Invalid user."}, status=400)
+        
+        followed_user.followers.add(request.user)
+        followed_user.save()
+
+    return HttpResponseRedirect(reverse("user", kwargs={
+        "username": username
+    }))
