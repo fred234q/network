@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     console.log(`Feed: ${feed}`);
     load_posts(feed);
+    console.log(feed.followers);
+
+    // Follow button
+    document.querySelector('#follow-btn').addEventListener('click', () => follow(feed));
 });
 
 function new_post(event) {
@@ -142,3 +146,25 @@ function load_user(feed) {
   });
 }
 
+function follow(user) {
+    fetch(`/user/${user}/follow`, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Print result
+        console.log(result)
+
+        const followBtn = document.querySelector('#follow-btn');
+        if (!result.error) {
+            if (followBtn.innerText == 'Follow') {
+                followBtn.innerText = 'Unfollow';
+            } else {
+                followBtn.innerText = 'Follow';
+            }
+        }
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
+}

@@ -14,7 +14,7 @@
                 </form>
             </div>
         {% endif %}
-        {% if feed %}
+        {% if feed.username %}
             <div id="user-card" class="nm">
                 <div id="user-posts" class="user-item">
                     <h4>Posts</h4>
@@ -29,8 +29,8 @@
                     <h5>0</h5>
                 </div>
             </div>
-            {% if request.user.username != feed %}
-                <button id="follow-btn" class="button">Follow</button>
+            {% if request.user != feed %}
+                <button id="follow-btn" class="button"">{% if feed not in request.user.following.all %}Follow{% else %}Unfollow{% endif %}</button>
             {% endif %}
         {% endif %}
         <div id="posts-container" data-feed="{{ feed }}">

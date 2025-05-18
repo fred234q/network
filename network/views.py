@@ -95,7 +95,8 @@ def new_post(request):
 
 
 def user(request, username):
-    return render(request, "network/index.html", {"feed": username})
+    user = User.objects.get(username=username)
+    return render(request, "network/index.html", {"feed": user})
 
 
 def posts(request, feed):
@@ -120,6 +121,7 @@ def posts(request, feed):
     posts = posts.order_by("-timestamp").all()
     return JsonResponse([post.serialize() for post in posts], safe=False)
 
+
 def user_info(request, username):
     try:
         user = User.objects.get(username=username)
@@ -132,6 +134,7 @@ def user_info(request, username):
     return JsonResponse(user.serialize())
 
 
+@csrf_exempt
 @login_required
 def follow(request, username):
     if request.method == "POST":
@@ -139,13 +142,22 @@ def follow(request, username):
             followed_user = User.objects.get(username=username)
         except:
             return JsonResponse({"error": f"User with username {username} does not exist"}, status=400)
-        
+
         if not followed_user:
             return JsonResponse({"error": "Invalid user."}, status=400)
         
-        followed_user.followers.add(request.user)
-        followed_user.save()
-
-    return HttpResponseRedirect(reverse("user", kwargs={
-        "username": username
-    }))
+        if followed_user == request.user:
+            return JsonResponse({"error": "User cannot follow self."}, status=400)
+        
+        if request.user not in followed_user.followers.all():
+            followed_user.followers.add(request.user)
+            followed_user.save()
+            return JsonResponse({"message": f"Followed user {username} successfully."})
+        
+        else:
+            followed_user.followers.remove(request.user)
+            followed_user.save()
+            return JsonResponse({"message": f"Unfollowed user {username} successfully."})
+        
+    else:
+        return JsonResponse({"error": "POST request required."}, status=400)
