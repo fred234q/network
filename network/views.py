@@ -95,7 +95,10 @@ def new_post(request):
 
 
 def user(request, username):
-    user = User.objects.get(username=username)
+    try:
+        user = User.objects.get(username=username)
+    except:
+        return HttpResponseRedirect(reverse("index"))
     return render(request, "network/index.html", {"feed": user})
 
 

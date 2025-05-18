@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     load_posts(feed);
 
     // Follow button
-    document.querySelector('#follow-btn').addEventListener('click', () => follow(feed));
+    if (document.querySelector('#follow-btn')) {
+        document.querySelector('#follow-btn').addEventListener('click', () => follow(feed));
+    }
 });
 
 function new_post(event) {
