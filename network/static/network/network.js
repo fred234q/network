@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     feed = document.querySelector('#posts-container').dataset.feed;
 
-    // If no feed, make it all
+    // If no feed, make the feed 'all'
     if (!feed) {
         feed = 'all';
         // Posting only possible if showing all posts
@@ -12,7 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     console.log(`Feed: ${feed}`);
     load_posts(feed);
-    console.log(feed.followers);
 
     // Follow button
     document.querySelector('#follow-btn').addEventListener('click', () => follow(feed));
@@ -155,6 +154,7 @@ function follow(user) {
         // Print result
         console.log(result)
 
+        // Update follow button text
         const followBtn = document.querySelector('#follow-btn');
         if (!result.error) {
             if (followBtn.innerText == 'Follow') {
@@ -162,6 +162,9 @@ function follow(user) {
             } else {
                 followBtn.innerText = 'Follow';
             }
+
+            // Update followers count
+            load_user(feed);
         }
     })
     .catch(error => {
