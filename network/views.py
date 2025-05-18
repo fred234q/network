@@ -53,9 +53,12 @@ def register(request):
                 "message": "Passwords must match."
             })
 
+        # Banned usernames
+        banned_usernames = ["all", "following"]
+
         # Attempt to create new user
         try:
-            if username == "all":
+            if username in banned_usernames:
                 raise IntegrityError
             user = User.objects.create_user(username, email, password)
             user.save()
