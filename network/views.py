@@ -164,3 +164,6 @@ def follow(request, username):
         
     else:
         return JsonResponse({"error": "POST request required."}, status=400)
+
+def following(request):
+    return render(request, "network/index.html", {"feed": "following"})
