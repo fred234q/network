@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         feed = 'all';
         // Posting only possible if showing all posts
         document.querySelector('#new-post-form').addEventListener('submit', event => new_post(event));
-    } else {
+    } else if (feed != 'following') {
         load_user(feed)
     }
     console.log(`Feed: ${feed}`);

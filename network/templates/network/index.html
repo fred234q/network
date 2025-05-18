@@ -3,7 +3,7 @@
 
 {% block body %}
     <div class="nm">
-        <h1>{% if feed %}{{ feed }}{% else %}All Posts{% endif %}</h1>
+        <h1>{% if feed %}{{ feed }}{% elif feed == "following" %}Following{% else %}All Posts{% endif %}</h1>
         {% if user.is_authenticated and not feed %}
             <div id="new-post" class="nm">
                 <h4>New Post</h4>
