@@ -111,6 +111,11 @@ def posts(request, feed):
     # Filter posts based on feed
     if feed == "all":
         posts = Post.objects.all()
+
+    elif feed == "following":
+        following = request.user.following.all()
+        posts = Post.objects.filter(user__in=following)
+
     else:
         try:
             user = User.objects.get(username=feed)
