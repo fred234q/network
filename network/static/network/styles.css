@@ -75,3 +75,11 @@ h1 {
     color: unset;
     text-decoration: unset;
 }
+
+.page-item.active {
+    color: white;
+}
+
+.pagination {
+    justify-content: center;
+}

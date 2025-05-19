@@ -7,15 +7,25 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 import json
+from django.core.paginator import Paginator
 
 from .models import User, Post, Like
+
+
+def paginate(request, posts):
+    paginator = Paginator(posts, 10)
+
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+    return page_obj
 
 
 def index(request):
     posts = Post.objects.all()
     posts = posts.order_by("-timestamp").all()
+    page_obj = paginate(request, posts)
     return render(request, "network/index.html", {
-        "posts": posts
+        "page_obj": page_obj
         })
 
 
@@ -113,9 +123,10 @@ def user(request, username):
 
     # Return posts in reverse chronological order
     posts = posts.order_by("-timestamp").all()
+    page_obj = paginate(request, posts)
     return render(request, "network/index.html", {
         "feed": user,
-        "posts": posts
+        "page_obj": page_obj
         })
 
 
@@ -193,8 +204,9 @@ def following(request):
     following = request.user.following.all()
     posts = Post.objects.filter(user__in=following)
     posts = posts.order_by("-timestamp").all()
+    page_obj = paginate(request, posts)
 
     return render(request, "network/index.html", {
         "feed": "following",
-        "posts": posts
+        "page_obj": page_obj
         })
