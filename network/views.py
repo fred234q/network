@@ -91,24 +91,26 @@ def register(request):
 def new_post(request):
     
     # Creating a new post must be done via POST
-    if request.method != "POST":
+    if request.method == "POST":
+        
+        # Get data
+        data = json.loads(request.body)
+        body = data.get("body", "")
+        
+        if body == "":
+            return JsonResponse({"error": "Post must not be empty."}, status=400)
+
+        # Create post
+        post = Post(
+            user=request.user,
+            body=body
+        )
+        post.save()
+
+        return JsonResponse({"message": "Post created successfully."}, status=201)
+
+    else:
         return JsonResponse({"error": "POST request required."}, status=400)
-    
-    # Get data
-    data = json.loads(request.body)
-    body = data.get("body", "")
-    
-    if body == "":
-        return JsonResponse({"error": "Post must not be empty."}, status=400)
-
-    # Create post
-    post = Post(
-        user=request.user,
-        body=body
-    )
-    post.save()
-
-    return JsonResponse({"message": "Post created successfully."}, status=201)
 
 
 def user(request, username):

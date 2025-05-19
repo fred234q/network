@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', function() {
     if (document.querySelector('#follow-btn')) {
         document.querySelector('#follow-btn').addEventListener('click', () => follow(feed));
     }
+
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', (event) => edit(event));
+    })
 });
 
 function new_post(event) {
@@ -172,4 +176,9 @@ function follow(user) {
     .catch(error => {
         console.log('Error:', error);
     });
+}
+
+function edit(event) {
+    event.preventDefault();
+    console.log(event);
 }
