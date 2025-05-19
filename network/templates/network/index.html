@@ -37,6 +37,9 @@
             {% for post in page_obj %}
                 <div class="nm">
                     <h4><a href="{% url 'user' username=post.user %}">{{ post.user }}</a></h4>
+                    {% if request.user == post.user %}
+                        <a id="edit-btn" href="#">edit</a>
+                    {% endif %}
                     <p>{{ post.body }}</p>
                     <p>{{ post.timestamp }}</p>
                     <p><i class="fa-regular fa-heart"></i> {{ post.likes.count }}</p>

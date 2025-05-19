@@ -71,7 +71,7 @@ h1 {
     margin: auto 0.5em;
 }
 
-#posts-container a {
+#posts-container h4 a {
     color: unset;
     text-decoration: unset;
 }
