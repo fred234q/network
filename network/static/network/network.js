@@ -12,8 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     } else if (feed != 'following') {
         load_user(feed)
     }
-    console.log(`Feed: ${feed}`);
-    load_posts(feed);
 
     // Follow button
     if (document.querySelector('#follow-btn')) {

@@ -12,7 +12,11 @@ from .models import User, Post, Like
 
 
 def index(request):
-    return render(request, "network/index.html")
+    posts = Post.objects.all()
+    posts = posts.order_by("-timestamp").all()
+    return render(request, "network/index.html", {
+        "posts": posts
+        })
 
 
 def login_view(request):
@@ -102,7 +106,17 @@ def user(request, username):
         user = User.objects.get(username=username)
     except:
         return HttpResponseRedirect(reverse("index"))
-    return render(request, "network/index.html", {"feed": user})
+    
+    posts = Post.objects.filter(
+        user=user
+    )
+
+    # Return posts in reverse chronological order
+    posts = posts.order_by("-timestamp").all()
+    return render(request, "network/index.html", {
+        "feed": user,
+        "posts": posts
+        })
 
 
 def posts(request, feed):
@@ -176,4 +190,11 @@ def follow(request, username):
 
 @login_required
 def following(request):
-    return render(request, "network/index.html", {"feed": "following"})
+    following = request.user.following.all()
+    posts = Post.objects.filter(user__in=following)
+    posts = posts.order_by("-timestamp").all()
+
+    return render(request, "network/index.html", {
+        "feed": "following",
+        "posts": posts
+        })
