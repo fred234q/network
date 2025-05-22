@@ -60,14 +60,13 @@ function new_post(event) {
         } else {
             alert.classList.add('alert-success');
             alert.innerText = result.message;
+
+            // Reload posts
+            load_posts('all');
         }
 
         // Clear textarea
         document.querySelector('#new-post-body').value = '';
-
-        // Reload posts
-        load_posts('all');
-
     })
     .catch(error => {
         console.log('Error: ', error);
@@ -75,6 +74,10 @@ function new_post(event) {
 }
 
 function load_posts(feed) {
+
+
+  // Reload page
+  location.reload()
 
   // Clear posts
   document.querySelector('#posts-container').innerHTML = '';
@@ -183,9 +186,7 @@ function edit(event) {
     
     // Get post id
     const postId = event.target.parentElement.dataset.postId;
-    console.log(event.target.parentElement.children);
     const oldBody = event.target.nextElementSibling;
-    console.log(oldBody);
 
     // Create form for the edit
     const editDiv = document.createElement('div');
@@ -201,7 +202,6 @@ function edit(event) {
     editSaveBtn.innerText = 'Save';
     editSaveBtn.addEventListener('click', () => {
         const body = editArea.value;
-        console.log(body);
 
         fetch(`/posts/${postId}/edit`, {
             method: 'PUT',
