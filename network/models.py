@@ -17,6 +17,11 @@ class User(AbstractUser):
     def __str__(self):
         return self.username
 
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
+    post = models.ForeignKey("Post", on_delete=models.CASCADE, related_name="likes")
+    timestamp = models.DateTimeField(auto_now_add=True)
+
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="posts")
     body = models.TextField()
@@ -33,8 +38,10 @@ class Post(models.Model):
             "timestamp": self.timestamp.strftime("%b %d %Y, %I:%M %p"),
             "likes": self.likes.count()
         }
+    
+    def likers(self):
+        likers = []
+        for like in self.likes.all():
+            likers.append(like.user)
+        return likers
 
-class Like(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="likes")
-    timestamp = models.DateTimeField(auto_now_add=True)

@@ -230,8 +230,9 @@ function edit(event) {
 }
 
 function like(event) {
-    const postId = event.target.parentElement.parentElement.dataset.postId;
-    console.log(postId);
+    const heartBtn = event.target;
+    const postId = heartBtn.parentElement.parentElement.dataset.postId;
+
     fetch(`/posts/${postId}/like`, {
         method: 'POST'
     })
@@ -239,6 +240,17 @@ function like(event) {
     .then(result => {
         // Print result
         console.log(result);
+
+        if (heartBtn.classList[2] === 'fa-regular') {
+            heartBtn.classList.remove('fa-regular');
+            heartBtn.classList.add('fa-solid');
+            heartBtn.style.color = 'red';
+        } else {
+            heartBtn.classList.remove('fa-solid');
+            heartBtn.classList.add('fa-regular');
+            heartBtn.style.color = 'black';
+        }
+
     })
     .catch(error => {
         console.log('Error:', error);
