@@ -42,7 +42,7 @@
                     {% endif %}
                     <p>{{ post.body }}</p>
                     <p>{{ post.timestamp }}</p>
-                    <p><i class="like-btn fa-heart {% if request.user in post.likers %}fa-solid{% else %}fa-regular{% endif %}"></i> {{ post.likes.count }}</p>
+                    <p><i class="like-btn fa-heart {% if request.user in post.likers %}fa-solid{% else %}fa-regular{% endif %}"></i> <span>{{ post.likes.count }}</span></p>
                 </div>
             {% endfor %}
 

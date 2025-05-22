@@ -238,19 +238,27 @@ def edit(request, post_id):
 @csrf_exempt
 @login_required
 def like(request, post_id):
-    if request.method != "POST":
-        return JsonResponse({"error": "POST request required."}, status=400)
+    if request.method == "POST":
+        try:
+            post = Post.objects.get(pk=post_id)
+        except Post.DoesNotExist:
+            return JsonResponse({"error": "Post not found."}, status=404)
+        
+        like, created = Like.objects.get_or_create(post=post, user=request.user)
+        if created:
+            like.save()
+            return JsonResponse({"message": "Post liked succesfully", "likes": post.likes.count()}, status=200)
+        else:
+            like.delete()
+            return JsonResponse({"message": "Post unliked succesfully", "likes": post.likes.count()}, status=200)
     
-    try:
-        post = Post.objects.get(pk=post_id)
-    except Post.DoesNotExist:
-        return JsonResponse({"error": "Post not found."}, status=404)
+    if request.method == "GET":
+        try:
+            post = Post.objects.get(pk=post_id)
+        except Post.DoesNotExist:
+            return JsonResponse({"error": "Post not found."}, status=404)
+        
+        
+        
     
-    like, created = Like.objects.get_or_create(post=post, user=request.user)
-    print(like)
-    if created:
-        like.save()
-        return JsonResponse({"message": "Post liked succesfully."}, status=200)
-    else:
-        like.delete()
-        return JsonResponse({"message": "Post unliked succesfully"}, status=200)
+    return JsonResponse({"error": "POST or GET request required."}, status=400)

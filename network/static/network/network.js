@@ -241,6 +241,7 @@ function like(event) {
         // Print result
         console.log(result);
 
+        // Toggle like
         if (heartBtn.classList[2] === 'fa-regular') {
             heartBtn.classList.remove('fa-regular');
             heartBtn.classList.add('fa-solid');
@@ -251,6 +252,8 @@ function like(event) {
             heartBtn.style.color = 'black';
         }
 
+        const likes = result.likes;
+        heartBtn.nextElementSibling.innerText = likes;
     })
     .catch(error => {
         console.log('Error:', error);

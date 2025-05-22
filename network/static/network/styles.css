@@ -85,7 +85,7 @@ h1 {
 }
 
 .fa-heart:hover {
-    color: red;
+    color: red !important;
 }
 
 .fa-heart.fa-solid {
