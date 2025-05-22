@@ -79,52 +79,52 @@ function load_posts(feed) {
   // Reload page
   location.reload()
 
-  // Clear posts
-  document.querySelector('#posts-container').innerHTML = '';
+//   // Clear posts
+//   document.querySelector('#posts-container').innerHTML = '';
 
-  // Load posts contained in selected feed
-  fetch(`/posts/${feed}`)
-  .then(response => response.json())
-  .then(posts => {
-      // Print emails
-      console.log(posts);
-      if (posts.error) {
-        return;
-      }
-      posts.forEach(function(post) {
-        // Create post card
-        const postCard = document.createElement('div');
-        postCard.className = 'nm';
+//   // Load posts contained in selected feed
+//   fetch(`/posts/${feed}`)
+//   .then(response => response.json())
+//   .then(posts => {
+//       // Print emails
+//       console.log(posts);
+//       if (posts.error) {
+//         return;
+//       }
+//       posts.forEach(function(post) {
+//         // Create post card
+//         const postCard = document.createElement('div');
+//         postCard.className = 'nm';
 
 
-        const user = document.createElement('h4');
-        const userLink = document.createElement('a');
-        userLink.href = `/user/${post['user']}`;
-        userLink.innerText = post['user'];
-        user.append(userLink);
-        // user.innerText = post['user'];
+//         const user = document.createElement('h4');
+//         const userLink = document.createElement('a');
+//         userLink.href = `/user/${post['user']}`;
+//         userLink.innerText = post['user'];
+//         user.append(userLink);
+//         // user.innerText = post['user'];
 
-        const body = document.createElement('p');
-        body.innerText = post['body'];
+//         const body = document.createElement('p');
+//         body.innerText = post['body'];
 
-        const timestamp = document.createElement('p');
-        timestamp.innerText = post['timestamp'];
+//         const timestamp = document.createElement('p');
+//         timestamp.innerText = post['timestamp'];
 
-        const likes = document.createElement('p');
-        likes.innerText = post['likes'];
-        const heart = document.createElement('i');
-        heart.classList.add('fa-regular', 'fa-heart');
-        likes.prepend(heart);
+//         const likes = document.createElement('p');
+//         likes.innerText = post['likes'];
+//         const heart = document.createElement('i');
+//         heart.classList.add('fa-regular', 'fa-heart');
+//         likes.prepend(heart);
 
-        postCard.append(user, body, timestamp, likes);
+//         postCard.append(user, body, timestamp, likes);
 
-        document.querySelector('#posts-container').append(postCard);
+//         document.querySelector('#posts-container').append(postCard);
 
-      });
-  })
-  .catch(error => {
-    console.log('Error:', error);
-  });
+//       });
+//   })
+//   .catch(error => {
+//     console.log('Error:', error);
+//   });
 }
 
 function load_user(feed) {
