@@ -21,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.edit-btn').forEach(button => {
         button.addEventListener('click', (event) => edit(event));
     })
+
+    document.querySelectorAll('.like-btn').forEach(button => {
+        button.addEventListener('click', (event) => like(event));
+    })
 });
 
 function new_post(event) {
@@ -223,4 +227,20 @@ function edit(event) {
 
     oldBody.replaceWith(editDiv);
     event.target.remove()
+}
+
+function like(event) {
+    const postId = event.target.parentElement.parentElement.dataset.postId;
+    console.log(postId);
+    fetch(`/posts/${postId}/like`, {
+        method: 'POST'
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Print result
+        console.log(result);
+    })
+    .catch(error => {
+        console.log('Error:', error);
+    });
 }

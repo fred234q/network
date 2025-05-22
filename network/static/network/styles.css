@@ -83,3 +83,7 @@ h1 {
 .pagination {
     justify-content: center;
 }
+
+.fa-heart:hover {
+    color: red;
+}
