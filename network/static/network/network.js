@@ -180,5 +180,46 @@ function follow(user) {
 
 function edit(event) {
     event.preventDefault();
-    console.log(event);
+    
+    // Get post id
+    const postId = event.target.parentElement.dataset.postId;
+    console.log(event.target.parentElement.children);
+    const oldBody = event.target.nextElementSibling;
+    console.log(oldBody);
+
+    // Create form for the edit
+    const editDiv = document.createElement('div');
+
+    // Textarea
+    const editArea = document.createElement('textarea');
+    editArea.className = 'nm-inset';
+    editArea.value = oldBody.innerText;
+
+    // Button
+    const editSaveBtn = document.createElement('button');
+    editSaveBtn.className = 'button';
+    editSaveBtn.innerText = 'Save';
+    editSaveBtn.addEventListener('click', () => {
+        const body = editArea.value;
+        console.log(body);
+
+        fetch(`/posts/${postId}/edit`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                body: body
+            })
+        })
+        .then(result => {
+            // Print result
+            console.log(result);
+            load_posts(feed);
+        })
+        .catch(error => {
+            console.log('Error:', error);
+        });
+    })
+
+    editDiv.append(editArea, editSaveBtn);
+
+    oldBody.replaceWith(editDiv);
 }

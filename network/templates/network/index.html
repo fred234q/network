@@ -35,7 +35,7 @@
         {% endif %}
         <div id="posts-container" data-feed="{{ feed }}">
             {% for post in page_obj %}
-                <div class="nm">
+                <div class="nm" data-post-id="{{ post.id }}">
                     <h4><a href="{% url 'user' username=post.user %}">{{ post.user }}</a></h4>
                     {% if request.user == post.user %}
                         <a class="edit-btn" href="">edit</a>

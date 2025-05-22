@@ -212,3 +212,24 @@ def following(request):
         "feed": "following",
         "page_obj": page_obj
         })
+
+
+@csrf_exempt
+@login_required
+def edit(request, post_id):
+    if request.method != "PUT":
+        return JsonResponse({"error": "PUT request required."}, status=400)
+    
+    try:
+        post = Post.objects.get(user=request.user, pk=post_id)
+    except Post.DoesNotExist:
+        return JsonResponse({"error": "Post not found."}, status=404)
+    
+    if request.user != post.user:
+        return JsonResponse({"error": "Cannot edit another user's post."}, status=400)
+    
+    data = json.loads(request.body)
+    if data.get("body") is not None:
+        post.body = data["body"]
+    post.save()
+    return HttpResponse(status=204)
