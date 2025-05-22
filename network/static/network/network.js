@@ -222,4 +222,5 @@ function edit(event) {
     editDiv.append(editArea, editSaveBtn);
 
     oldBody.replaceWith(editDiv);
+    event.target.remove()
 }
