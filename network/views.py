@@ -157,7 +157,8 @@ def posts(request, feed):
 
     # Return posts in reverse chronological order
     posts = posts.order_by("-timestamp").all()
-    return JsonResponse([post.serialize() for post in posts], safe=False)
+    page_obj = paginate(request, posts)
+    return JsonResponse([post.serialize() for post in page_obj], safe=False)
 
 
 def user_info(request, username):
